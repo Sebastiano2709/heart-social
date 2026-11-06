@@ -4,6 +4,6 @@ import ts from 'eslint-config-next/typescript'
 const config = [
   ...next,
   ...ts,
-  { ignores: ['.next/**', 'node_modules/**', 'playwright-report/**', 'test-results/**', '.data/**', 'next-env.d.ts'] },
+  { ignores: ['.next/**', '.next-preview/**', 'node_modules/**', 'playwright-report/**', 'test-results/**', '.data/**', 'next-env.d.ts'] },
 ]
 export default config
