@@ -3,13 +3,14 @@ import { useActionState, useEffect, useId, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { submitCall } from './actions'
+import { previewSubmit } from './preview-submit'
 import { SERVICE_OPTIONS, type CallField, type CallState } from './schema'
 import { trackEvent } from '@/lib/analytics'
 
 const initial: CallState = { status: 'idle' }
 
 export function CallForm({ location = 'apel-gratuit', defaultService }: { location?: string; defaultService?: string }) {
-  const [state, action, pending] = useActionState(submitCall, initial)
+  const [state, action, pending] = useActionState(process.env.NEXT_PUBLIC_PREVIEW === '1' ? previewSubmit : submitCall, initial)
   const [offline, setOffline] = useState(false)
   const router = useRouter()
   const started = useRef(false)
@@ -20,7 +21,9 @@ export function CallForm({ location = 'apel-gratuit', defaultService }: { locati
   useEffect(() => {
     if (state.status === 'success') {
       trackEvent('generate_lead', { form_location: location })
-      router.push('/multumim')
+      const previewNav = (globalThis as { __hsNav?: (p: string) => void }).__hsNav
+      if (process.env.NEXT_PUBLIC_PREVIEW === '1' && previewNav) previewNav('/multumim')
+      else router.push('/multumim')
     }
     if (state.status === 'error' && state.fieldErrors) {
       const first = (['name', 'phone', 'link', 'service', 'consent'] as CallField[]).find((f) => state.fieldErrors?.[f]?.length)

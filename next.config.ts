@@ -9,7 +9,8 @@ const securityHeaders = [
 
 const config: NextConfig = {
   poweredByHeader: false,
-  images: { formats: ['image/avif', 'image/webp'] },
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+  images: { formats: ['image/avif', 'image/webp'], unoptimized: process.env.NEXT_PUBLIC_PREVIEW === '1' },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },
