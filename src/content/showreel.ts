@@ -55,4 +55,4 @@ export const copy = {
 }
 
 /** Optional soundtrack (licensed instrumental). null = the sound button is not shown. */
-export const soundtrack: string | null = '/audio/heart-social-showreel.m4a' // Pixabay, DELOSound – Corporate Background Music (first 70 s, ≈ one full loop of the 3 chapters)
+export const soundtrack: string | null = process.env.NEXT_PUBLIC_PREVIEW_NO_MEDIA === '1' ? null : '/audio/heart-social-showreel.m4a' // Pixabay, DELOSound – Corporate Background Music (first 70 s, ≈ one full loop of the 3 chapters)

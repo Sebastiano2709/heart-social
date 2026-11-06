@@ -9,6 +9,9 @@ import json, re, shutil, sys, urllib.request
 from pathlib import Path
 
 BASE, OUT = sys.argv[1].rstrip('/'), Path(sys.argv[2])
+import os
+DIST = os.environ.get('NEXT_DIST_DIR', '.next-preview')
+NO_MEDIA = os.environ.get('NEXT_PUBLIC_PREVIEW_NO_MEDIA') == '1'  # share build: no video/audio files
 ROOT = Path(__file__).resolve().parent.parent
 SLUGS = ['social-media-marketing', 'sedinte-foto-video', 'editare-reels', 'creare-site-web-design', 'campanii-ads']
 ROUTES = ['/', '/servicii', *[f'/servicii/{s}' for s in SLUGS], '/portofoliu', '/despre-noi', '/apel-gratuit', '/multumim',
@@ -66,9 +69,12 @@ if OUT.exists():
 OUT.mkdir(parents=True)
 
 # Static assets
-shutil.copytree(ROOT / '.next-preview/static', OUT / '_next/static')
+shutil.copytree(ROOT / DIST / 'static', OUT / '_next/static')
 for item in (ROOT / 'public').iterdir():
-    (shutil.copytree if item.is_dir() else shutil.copy2)(item, OUT / item.name)
+    if item.is_dir():
+        shutil.copytree(item, OUT / item.name, ignore=shutil.ignore_patterns('*.mp4', '*.m4a') if NO_MEDIA else None)
+    else:
+        shutil.copy2(item, OUT / item.name)
 shutil.copy2(ROOT / 'src/app/icon.svg', OUT / 'icon.svg')
 
 for css in (OUT / '_next/static').rglob('*.css'):
@@ -100,7 +106,8 @@ print(f'{len(files)} files, {sum(p.stat().st_size for p in files)/1e6:.1f} MB')
 
 # Artifact hosting constraints: "_" prefixed paths are reserved and .m4a is not served.
 (OUT / '_next').rename(OUT / 'nx')
-(OUT / 'audio/heart-social-showreel.m4a').rename(OUT / 'audio/heart-social-showreel.mp4')
+if not NO_MEDIA:
+    (OUT / 'audio/heart-social-showreel.m4a').rename(OUT / 'audio/heart-social-showreel.mp4')
 for f in [*OUT.glob('*.html'), *(OUT / 'nx').rglob('*.js')]:
     t = f.read_text()
     t = t.replace('heart-social-showreel.m4a', 'heart-social-showreel.mp4')

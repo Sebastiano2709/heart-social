@@ -421,7 +421,7 @@ export function Showreel() {
     const apply = () => {
       const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection
       env.mobile = mq.matches
-      env.lite = !!conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? '')
+      env.lite = process.env.NEXT_PUBLIC_PREVIEW_NO_MEDIA === '1' || !!conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? '')
       setMobile(mq.matches)
       setMode(rm.matches ? 'static' : 'play')
     }

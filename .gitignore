@@ -8,3 +8,4 @@ playwright-report
 .env
 next-env.d.ts
 .next-preview
+.next-share
