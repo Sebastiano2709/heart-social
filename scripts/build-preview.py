@@ -123,4 +123,15 @@ for f in [*OUT.glob('*.html'), *(OUT / 'nx').rglob('*.js')]:
         t = t.replace('_next/', 'nx/').replace('(_next|', '(nx|')
         t = re.sub(r'<link rel="icon"[^>]*>', '<link rel="icon" href="icon.png" type="image/png"/>', t)
     f.write_text(t)
-print('renamed _next -> nx, soundtrack -> .mp3, favicon -> png')
+# Artifact public sharing does not accept font files: inline them into the CSS as data: URIs.
+import base64
+for css in (OUT / 'nx').rglob('*.css'):
+    t = css.read_text()
+    def inline(m):
+        font = OUT / 'fonts' / m.group(1)
+        return 'url(data:font/woff2;base64,' + base64.b64encode(font.read_bytes()).decode() + ')'
+    css.write_text(re.sub(r'url\((?:\.\./)+fonts/([^)]+\.woff2)\)', inline, t))
+shutil.rmtree(OUT / 'fonts')
+for f in OUT.glob('*.html'):
+    f.write_text(re.sub(r'<link rel="preload" href="fonts/[^"]+"[^>]*>', '', f.read_text()))
+print('renamed _next -> nx, soundtrack -> .mp3, favicon -> png, fonts inlined')
