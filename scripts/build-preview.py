@@ -106,12 +106,21 @@ print(f'{len(files)} files, {sum(p.stat().st_size for p in files)/1e6:.1f} MB')
 
 # Artifact hosting constraints: "_" prefixed paths are reserved and .m4a is not served.
 (OUT / '_next').rename(OUT / 'nx')
-if not NO_MEDIA:
-    (OUT / 'audio/heart-social-showreel.m4a').rename(OUT / 'audio/heart-social-showreel.mp4')
+import subprocess
+if not NO_MEDIA:  # public sharing accepts MP3/WAV audio only
+    src = OUT / 'audio/heart-social-showreel.m4a'
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(src), '-c:a', 'libmp3lame', '-b:a', '128k', str(OUT / 'audio/heart-social-showreel.mp3')], check=True)
+    src.unlink()
+# public sharing accepts JPEG/PNG/GIF/WebP images only: render the favicon to PNG and drop SVG files
+subprocess.run(['google-chrome', '--headless', '--disable-gpu', '--no-sandbox', '--hide-scrollbars', '--default-background-color=00000000',
+                '--window-size=64,64', f'--screenshot={OUT / "icon.png"}', f'file://{ROOT / "src/app/icon.svg"}'], check=True, capture_output=True)
+for svg in OUT.rglob('*.svg'):
+    svg.unlink()
 for f in [*OUT.glob('*.html'), *(OUT / 'nx').rglob('*.js')]:
     t = f.read_text()
-    t = t.replace('heart-social-showreel.m4a', 'heart-social-showreel.mp4')
+    t = t.replace('heart-social-showreel.m4a', 'heart-social-showreel.mp3')
     if f.suffix == '.html':
         t = t.replace('_next/', 'nx/').replace('(_next|', '(nx|')
+        t = re.sub(r'<link rel="icon"[^>]*>', '<link rel="icon" href="icon.png" type="image/png"/>', t)
     f.write_text(t)
-print('renamed _next -> nx, soundtrack -> .mp4')
+print('renamed _next -> nx, soundtrack -> .mp3, favicon -> png')
