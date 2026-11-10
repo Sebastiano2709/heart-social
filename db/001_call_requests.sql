@@ -1,4 +1,5 @@
--- Leads from the "Rezervă-ți un apel gratuit" form. Run once against the production database.
+-- Leads from the "Rezervă-ți un apel gratuit" form. The app also applies this schema automatically on the first
+-- lead (src/server/leads.ts ensureSchema), so running it by hand is optional.
 create extension if not exists pgcrypto;
 
 create table if not exists call_requests (

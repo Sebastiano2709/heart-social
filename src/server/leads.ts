@@ -16,9 +16,37 @@ function db() {
   return sql
 }
 
+// Same schema as db/001_call_requests.sql, applied once per server instance so a fresh database works
+// without a manual migration step. Idempotent; gen_random_uuid() is built into PostgreSQL 13+.
+let schemaReady: Promise<unknown> | null = null
+function ensureSchema(conn: ReturnType<typeof postgres>) {
+  schemaReady ??= conn
+    .unsafe(
+      `create table if not exists call_requests (
+        id            uuid primary key default gen_random_uuid(),
+        created_at    timestamptz not null default now(),
+        name          text not null check (char_length(name) between 2 and 100),
+        phone         text not null check (char_length(phone) between 9 and 20),
+        link          text check (link is null or char_length(link) <= 200),
+        service       text not null,
+        form_location text not null default 'apel-gratuit',
+        notified_at   timestamptz
+      );
+      create index if not exists call_requests_created_at_idx on call_requests (created_at desc);
+      create index if not exists call_requests_unnotified_idx on call_requests (created_at) where notified_at is null;`,
+    )
+    .simple()
+    .catch((err) => {
+      schemaReady = null // retry on the next request
+      throw err
+    })
+  return schemaReady
+}
+
 export async function saveLead(lead: Lead): Promise<{ id: string }> {
   const conn = db()
   if (conn) {
+    await ensureSchema(conn)
     const rows = await conn<{ id: string }[]>`
       insert into call_requests (name, phone, link, service, form_location)
       values (${lead.name}, ${lead.phone}, ${lead.link || null}, ${lead.service}, ${lead.location})
