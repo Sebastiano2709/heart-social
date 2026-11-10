@@ -75,6 +75,11 @@ export function Header() {
 
         <nav aria-label="Navigare principală" className="hidden lg:block">
           <ul className="flex flex-wrap items-center justify-end gap-x-8 gap-y-3">
+            <li>
+              <Link href="/" className={linkCls} aria-current={pathname === '/' ? 'page' : undefined}>
+                Acasă
+              </Link>
+            </li>
             <li ref={svcRef} className="relative">
               <button type="button" className={linkCls} aria-expanded={svcOpen} aria-controls={svcId} onClick={() => setSvcOpen((v) => !v)}>
                 Servicii <Chevron />
@@ -128,6 +133,11 @@ export function Header() {
       <div id={menuId} hidden={!menuOpen} className="menu-sheet fixed inset-x-0 bottom-0 top-[76px] overflow-y-auto bg-white lg:hidden">
         <nav aria-label="Navigare mobilă" className="wrap py-6">
           <ul className="grid gap-1">
+            <li>
+              <Link href="/" className="block py-3 text-2xl font-extrabold no-underline" aria-current={pathname === '/' ? 'page' : undefined}>
+                Acasă
+              </Link>
+            </li>
             <li>
               <Link href="/servicii" className="block py-3 text-2xl font-extrabold no-underline">
                 Servicii
