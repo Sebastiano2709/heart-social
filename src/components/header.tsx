@@ -79,7 +79,7 @@ export function Header() {
               <button type="button" className={linkCls} aria-expanded={svcOpen} aria-controls={svcId} onClick={() => setSvcOpen((v) => !v)}>
                 Servicii <Chevron />
               </button>
-              <div id={svcId} hidden={!svcOpen} className="absolute left-0 top-full mt-4 w-72 border border-line bg-white p-2 shadow-[0_16px_40px_rgba(22,20,26,.12)]">
+              <div id={svcId} hidden={!svcOpen} className="menu-pop absolute left-0 top-full mt-4 w-72 border border-line bg-white p-2 shadow-[0_16px_40px_rgba(22,20,26,.12)]">
                 <ul>
                   <li>
                     <Link href="/servicii" className="block px-3 py-2.5 font-bold no-underline hover:bg-grey-100">
@@ -125,7 +125,7 @@ export function Header() {
         </div>
       </div>
 
-      <div id={menuId} hidden={!menuOpen} className="fixed inset-x-0 bottom-0 top-[76px] overflow-y-auto bg-white lg:hidden">
+      <div id={menuId} hidden={!menuOpen} className="menu-sheet fixed inset-x-0 bottom-0 top-[76px] overflow-y-auto bg-white lg:hidden">
         <nav aria-label="Navigare mobilă" className="wrap py-6">
           <ul className="grid gap-1">
             <li>

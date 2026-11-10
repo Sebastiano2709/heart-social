@@ -114,3 +114,32 @@ html.motion-paused .marquee__track,
 html.motion-paused .reel * { animation-play-state: paused !important; }
 
 html.hs-consented .consent-banner:not([data-open]) { display: none; }
+
+/* Page and menu entrances. Start slightly visible (not 0) so content is never blank and LCP is not deferred.
+   A gentle ease (not expo) so the fade from transparent to clear is actually perceptible. */
+:root { --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+@keyframes hs-page-in { from { opacity: 0.15; } to { opacity: 1; } }
+@keyframes hs-rise-in { from { opacity: 0.08; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes hs-pop-in { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes hs-sheet-in { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-enter { animation: hs-page-in 900ms var(--ease-soft) both; }
+  /* Inner-page hero: breadcrumb, eyebrow, title, text and buttons arrive one after another */
+  .page-enter > section:first-of-type .wrap > *,
+  .page-enter > section:first-of-type .wrap > div > * { animation: hs-rise-in 900ms var(--ease-soft) both; }
+  .page-enter > section:first-of-type .wrap > *:nth-child(2), .page-enter > section:first-of-type .wrap > div > *:nth-child(2) { animation-delay: 110ms; }
+  .page-enter > section:first-of-type .wrap > *:nth-child(3), .page-enter > section:first-of-type .wrap > div > *:nth-child(3) { animation-delay: 220ms; }
+  .page-enter > section:first-of-type .wrap > *:nth-child(4), .page-enter > section:first-of-type .wrap > div > *:nth-child(4) { animation-delay: 330ms; }
+  .page-enter > section:first-of-type .wrap > *:nth-child(5), .page-enter > section:first-of-type .wrap > div > *:nth-child(5) { animation-delay: 440ms; }
+  .page-enter > section:first-of-type .wrap > *:nth-child(n+6), .page-enter > section:first-of-type .wrap > div > *:nth-child(n+6) { animation-delay: 550ms; }
+
+  .menu-pop:not([hidden]) { animation: hs-pop-in 320ms var(--ease-soft) both; transform-origin: top left; }
+  .menu-sheet:not([hidden]) { animation: hs-sheet-in 400ms var(--ease-soft) both; }
+  .menu-sheet:not([hidden]) li { animation: hs-rise-in 550ms var(--ease-soft) both; }
+  .menu-sheet:not([hidden]) li:nth-child(2) { animation-delay: 50ms; }
+  .menu-sheet:not([hidden]) li:nth-child(3) { animation-delay: 100ms; }
+  .menu-sheet:not([hidden]) li:nth-child(4) { animation-delay: 150ms; }
+  .menu-sheet:not([hidden]) li:nth-child(5) { animation-delay: 200ms; }
+  .menu-sheet:not([hidden]) li:nth-child(n+6) { animation-delay: 250ms; }
+}
