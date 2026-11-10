@@ -49,16 +49,13 @@ export default function About() {
             <div className="mt-6 grid gap-5 text-lg">
               <p>Am absolvit Publicitatea la Facultatea de Științe Politice, Administrative și ale Comunicării (FSPAC) a Universității Babeș-Bolyai din Cluj-Napoca, în {site.founder.year}.</p>
               <p>
-                Încă din facultate am văzut același lucru la afacerile mici: oameni care fac lucruri foarte bune, dar pe care nu-i știe aproape nimeni. Nu le lipsea calitatea, le lipsea cineva care să le spună povestea. <span className="ph">[PROPUNERE, de confirmat]</span>
+                Încă din facultate am văzut același lucru la afacerile mici: oameni care fac lucruri foarte bune, dar pe care nu-i știe aproape nimeni. Nu le lipsea calitatea, le lipsea cineva care să le spună povestea.
               </p>
               <p>
-                Așa a apărut Heart Social. Numele nu e întâmplător: mă implic în fiecare proiect de parcă ar fi al meu. Dacă nu pot face asta, prefer să spun nu. <span className="ph">[PROPUNERE, de confirmat]</span>
-              </p>
-              <p>
-                <span className="ph">[POVESTEA REALĂ: ce a făcut Emilian între 2023 și pornirea agenției, proiecte, experiență]</span>
+                Așa a apărut Heart Social. Numele nu e întâmplător: mă implic în fiecare proiect de parcă ar fi al meu. Dacă nu pot face asta, prefer să spun nu.
               </p>
             </div>
-            <blockquote className="mt-8 border-l-[3px] border-magenta-600 pl-5 text-2xl font-extrabold leading-snug">„Dacă nu mă pot implica din inimă într-un proiect, nu îl iau.” <span className="ph text-sm">[PROPUNERE, de confirmat]</span></blockquote>
+            <blockquote className="mt-8 border-l-[3px] border-magenta-600 pl-5 text-2xl font-extrabold leading-snug">„Dacă nu mă pot implica din inimă într-un proiect, nu îl iau.”</blockquote>
             <div className="mt-8 flex flex-wrap items-center gap-6">
               <CtaButton location="about-founder" label="Hai să vorbim" />
               <TrackedA href={site.instagramUrl} event="click_instagram" location="about" external className="link-arrow" ariaLabel="Urmărește-ne pe Instagram (se deschide într-o filă nouă)">

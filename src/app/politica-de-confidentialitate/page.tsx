@@ -9,7 +9,7 @@ export default function Privacy() {
     <LegalPage title="Politica de confidențialitate">
       <h2>Cine prelucrează datele</h2>
       <p>
-        Heart Social · <span className="ph">{site.companyData}</span> · Telefon {site.phoneDisplay} · Email <span className="ph">{site.email}</span>
+        Heart Social · Telefon {site.phoneDisplay}
       </p>
       <h2>Ce date colectăm prin formularul „Apel gratuit”</h2>
       <ul>
@@ -19,13 +19,11 @@ export default function Privacy() {
         <li>serviciul care te interesează.</li>
       </ul>
       <h2>De ce le folosim</h2>
-      <p>Ca să te sunăm înapoi și să discutăm despre cererea ta. <span className="ph">[TEMEI LEGAL — de stabilit de consilier: consimțământ / demersuri precontractuale]</span></p>
-      <h2>Cât timp le păstrăm</h2>
-      <p><span className="ph">[PERIOADA DE PĂSTRARE]</span></p>
+      <p>Ca să te sunăm înapoi și să discutăm despre cererea ta.</p>
       <h2>Cui le transmitem</h2>
-      <p><span className="ph">[FURNIZORI: găzduire site, bază de date, serviciu de email, Google Analytics, Meta — cu acordul tău pentru ultimele două]</span></p>
+      <p>Folosim furnizori care ne ajută să facem site-ul să funcționeze: găzduirea site-ului (Vercel), baza de date (Neon) și protecția împotriva spamului (Upstash). Google Analytics și Meta primesc date doar dacă accepți cookie-urile de analiză și de marketing.</p>
       <h2>Drepturile tale</h2>
-      <p>Acces, rectificare, ștergere, restricționare, portabilitate, opoziție, retragerea consimțământului și plângere la ANSPDCP. <span className="ph">[CUM SE EXERCITĂ — de completat]</span></p>
+      <p>Acces, rectificare, ștergere, restricționare, portabilitate, opoziție, retragerea consimțământului și plângere la ANSPDCP. Pentru oricare dintre ele, ne poți contacta la telefonul de mai sus.</p>
     </LegalPage>
   )
 }

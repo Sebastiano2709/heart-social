@@ -29,12 +29,12 @@ export default function Cookies() {
           <tr className="border-b border-line">
             <td className="py-2 pr-4">Analiză</td>
             <td className="py-2 pr-4">Google Analytics 4</td>
-            <td className="py-2">Statistici de vizitare. <span className="ph">[NUME COOKIE-URI ȘI DURATE]</span></td>
+            <td className="py-2">Statistici de vizitare.</td>
           </tr>
           <tr className="border-b border-line">
             <td className="py-2 pr-4">Marketing</td>
             <td className="py-2 pr-4">Meta Pixel</td>
-            <td className="py-2">Măsurarea reclamelor. <span className="ph">[NUME COOKIE-URI ȘI DURATE]</span></td>
+            <td className="py-2">Măsurarea reclamelor.</td>
           </tr>
         </tbody>
       </table>

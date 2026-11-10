@@ -84,7 +84,7 @@ export const services: Service[] = [
     slug: 'campanii-ads',
     name: 'Campanii Ads',
     benefit: 'Reclame care aduc oameni, nu doar afișări.',
-    summary: 'Campanii pe Meta și TikTok [GOOGLE: DE CONFIRMAT], cu bugetul pus acolo unde aduce rezultate.',
+    summary: 'Campanii pe Meta și TikTok, cu bugetul pus acolo unde aduce rezultate.',
     icon: 'ads',
     related: ['creare-site-web-design', 'social-media-marketing'],
   },

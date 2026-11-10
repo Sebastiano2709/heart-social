@@ -6,7 +6,7 @@ import { Marquee, SectionHead, ServiceCards, CtaRow } from '@/components/section
 import { Rosette } from '@/components/brand'
 import { CountUp, CtaButton, Reveal, TrackedA } from '@/components/interactive'
 import { FinalCta } from '@/components/footer'
-import { IconHeartHand, IconCamera, IconTarget, IconReport, IconRings, IconStack, IconPeople, IconLink, IconReels, IconInstagram } from '@/components/icons'
+import { IconHeartHand, IconCamera, IconTarget, IconReport, IconRings, IconStack, IconPeople, IconLink, IconInstagram } from '@/components/icons'
 import { CTA, services, site } from '@/lib/site'
 import { JsonLd, organizationLd } from '@/lib/schema'
 
@@ -206,10 +206,10 @@ export default function Home() {
             <p className="eyebrow">Cine e în spatele Heart Social</p>
             <h2 id="fondator">Salut, sunt Emilian.</h2>
             <p className="lead mt-5">
-              Am absolvit Publicitatea la FSPAC, Universitatea Babeș-Bolyai din Cluj-Napoca, în {site.founder.year}. <span className="ph">[POVESTEA LUI EMILIAN: ce a făcut după facultate, 1–2 fraze]</span> Am pornit Heart Social pentru că <span className="ph">[MOTIVUL REAL, în cuvintele lui]</span>.
+              Am absolvit Publicitatea la FSPAC, Universitatea Babeș-Bolyai din Cluj-Napoca, în {site.founder.year}. Am pornit Heart Social ca să ajut afacerile mici să fie văzute, recunoscute și alese.
             </p>
             <blockquote className="mt-8 border-l-[3px] border-magenta-600 pl-5 text-xl font-extrabold leading-snug">
-              „Dacă nu mă pot implica din inimă într-un proiect, nu îl iau.” <span className="ph text-sm">[PROPUNERE, de confirmat]</span>
+              „Dacă nu mă pot implica din inimă într-un proiect, nu îl iau.”
             </blockquote>
             <div className="mt-8 flex flex-wrap items-center gap-6">
               <Link href="/despre-noi" className="link-arrow">
@@ -227,18 +227,8 @@ export default function Home() {
       <section className="section" aria-labelledby="lucrari">
         <div className="wrap">
           <SectionHead eyebrow="Lucrări recente" id="lucrari" title="Mai bine îți arătăm." center />
-          <ul className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-3">
-            {[1, 2, 3].map((n) => (
-              <li key={n} className="grid aspect-[9/16] place-items-center bg-grey-100 p-6 text-center shadow-[inset_0_0_0_1px_var(--color-line)]">
-                <div>
-                  <IconReels className="mx-auto mb-3 size-12 text-grey-500" accent={false} />
-                  <span className="ph">[REEL REAL {n}]</span>
-                  <p className="mt-2 text-sm text-grey-700">tipul afacerii + ce am făcut</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-10 text-center">
+          <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-grey-700">Cele mai noi Reels, fotografii și campanii le găsești pe Instagram.</p>
+          <div className="mt-8 text-center">
             <TrackedA href={site.instagramUrl} event="click_instagram" location="home-work" external className="link-arrow" ariaLabel="Vezi mai multe pe Instagram (se deschide într-o filă nouă)">
               Vezi mai multe pe Instagram <span aria-hidden="true">›</span>
             </TrackedA>

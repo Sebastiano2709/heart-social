@@ -75,7 +75,7 @@ export function Footer() {
       </div>
       <div className="wrap relative mt-14 flex flex-col gap-3 border-t border-white/15 pt-6 text-sm text-[#bdb9c4] lg:flex-row lg:items-center lg:justify-between">
         <p>
-          © {new Date().getFullYear()} Heart Social · <span className="ph">{site.companyData}</span>
+          © {new Date().getFullYear()} Heart Social
         </p>
         <ul className="flex flex-wrap gap-x-5 gap-y-2">
           <li><Link className={a} href="/politica-de-confidentialitate">Politica de confidențialitate</Link></li>

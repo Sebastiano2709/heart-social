@@ -71,12 +71,6 @@ export default function CallPage() {
                 <IconInstagram className="size-5" /> @{site.instagramHandle}
               </TrackedA>
             </li>
-            <li>
-              <p className="text-sm font-bold uppercase tracking-[0.1em] text-grey-700">Email</p>
-              <p className="mt-1 text-xl font-extrabold">
-                <span className="ph">{site.email}</span>
-              </p>
-            </li>
           </ul>
           <p className="mt-8 text-grey-700">Lucrăm din București.</p>
         </div>

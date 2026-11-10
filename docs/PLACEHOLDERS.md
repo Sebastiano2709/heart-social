@@ -20,3 +20,16 @@ Every item renders visibly on the site as `[…]` until replaced.
 | `[DATE FIRMĂ]` [LEGAL] | footer, legal pages | client (at the end) |
 | Legal page texts [LEGAL] | 3 legal pages | client's counsel |
 | `[TIMP DE RĂSPUNS]` | not shown (only if promised) | client |
+
+## 2026-11-10 — visible placeholders removed at the owner's request
+
+All yellow `[...]` markers were removed from the live site. Nothing was invented in their place: unconfirmed
+FAQ answers, deliverable counts, portfolio tiles and legal sub-sections were removed; facts still missing are
+tracked here and must be added back when supplied:
+
+- Company data (name, CUI, Trade Register no., registered office) and contact e-mail — footer, legal pages, /apel-gratuit.
+- Founder copy written in Emilian's voice (home + /despre-noi, incl. the quote) — shown without a marker; needs his confirmation.
+- Legal pages — legal basis, retention period, terms of use, IP, cookie names/durations, ANPC applicability: still to be written by counsel before public launch [LEGAL].
+- Portfolio and service-page samples — real Reels/photos/case studies when available.
+- Service FAQs removed: account ownership, delivery times, usage rights, revisions, music rights, site maintenance, domain/hosting, ad-account ownership.
+- Google Ads — not mentioned until confirmed.

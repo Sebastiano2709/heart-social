@@ -133,13 +133,7 @@ export default async function ServicePage({ params }: Props) {
         <div className="wrap">
           <p className="eyebrow">Din portofoliu</p>
           <h2 id="portofoliu">Conținut făcut de noi</h2>
-          <ul className="mt-10 grid gap-5 sm:grid-cols-3">
-            {[1, 2, 3].map((n) => (
-              <li key={n} className="grid aspect-[4/5] place-items-center bg-white p-6 text-center shadow-[inset_0_0_0_1px_var(--color-line)]">
-                <span className="ph">[MOSTRĂ REALĂ {n}]</span>
-              </li>
-            ))}
-          </ul>
+          <p className="lead mt-5">Vezi exemple de Reels, fotografii și campanii făcute de noi.</p>
           <Link href="/portofoliu" className="link-arrow mt-8">
             Vezi tot portofoliul <span aria-hidden="true">›</span>
           </Link>

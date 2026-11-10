@@ -10,9 +10,6 @@ export function LegalPage({ title, children }: { title: string; children: ReactN
         <h1 id="h1" className="text-[clamp(2rem,1.6rem+2vw,3rem)]">
           {title}
         </h1>
-        <p className="mt-6 border-l-4 border-magenta-600 bg-grey-100 p-4 font-semibold">
-          <span className="ph">[LEGAL]</span> Text în lucru: structura de mai jos trebuie completată și verificată de consilierul juridic al firmei înainte de lansare.
-        </p>
         <div className="legal mt-10 grid gap-6 [&_h2]:mt-6 [&_h2]:text-2xl [&_li]:ml-5 [&_li]:list-disc">{children}</div>
       </div>
     </section>
