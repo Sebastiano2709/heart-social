@@ -22,3 +22,11 @@ Replace any slot with Heart Social's own footage by dropping files with the same
 
 `public/audio/heart-social-showreel.m4a` — "Corporate Background Music" by DELOSound, Pixabay (Pixabay Content License: free commercial use, no attribution required). First 70 s, fade in 1 s / out 2.5 s, loudness-normalised to −16 LUFS, AAC 80 kb/s (≈700 KB). Loaded only when a visitor presses the sound button; the hero always starts muted.
 Note: when the hero video is re-posted on Instagram/YouTube, automated content-ID systems may flag stock music; use each platform's own music library there.
+
+## Backup clips (4K, same subjects) if a slot needs swapping
+
+- local-a (latte art): https://www.pexels.com/video/a-person-making-a-latte-art-4932604/
+- local-b (barber): https://www.pexels.com/video/close-up-of-barber-cutting-hair-9738001/
+- b2b-c (meeting): https://www.pexels.com/video/a-woman-doing-a-business-presentation-for-a-group-of-people-3252973/
+- b2b-b (warehouse): https://www.pexels.com/video/men-working-in-a-warehouse-4281405/
+- solo-a (phone on tripod): https://www.pexels.com/video/a-woman-using-her-smartphone-on-a-tripod-7234061/
