@@ -26,6 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('hs-consent'))document.documentElement.classList.add('hs-consented')}catch(e){}" }} />
         <link rel="preload" href="/fonts/manrope-latin-800-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/manrope-latin-ext-400-normal.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
         <Header />

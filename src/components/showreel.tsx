@@ -49,9 +49,12 @@ function FallbackVisual({ chapter, slot }: { chapter: ChapterKey; slot: 'A' | 'B
 }
 
 // Mobile flag + data-saver flag, set by the engine (avoids prop-drilling through every scene).
-const env = { mobile: false, lite: false }
+const env = { mobile: false, lite: false, large: false }
 
-const pick = (slot: MediaSlot) => (env.mobile && slot.srcMobile ? { src: slot.srcMobile, poster: slot.posterMobile ?? slot.poster } : { src: slot.src, poster: slot.poster })
+const pick = (slot: MediaSlot) =>
+  env.mobile && slot.srcMobile
+    ? { src: slot.srcMobile, poster: slot.posterMobile ?? slot.poster }
+    : { src: env.large && slot.srcLarge ? slot.srcLarge : slot.src, poster: slot.poster }
 
 function Media({ slot, chapter, which, rate = 1 }: { slot: MediaSlot; chapter: ChapterKey; which: 'A' | 'B' | 'C'; rate?: number }) {
   if (!slot.src) return <FallbackVisual chapter={chapter} slot={which} />
@@ -422,6 +425,8 @@ export function Showreel() {
       const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection
       env.mobile = mq.matches
       env.lite = process.env.NEXT_PUBLIC_PREVIEW_NO_MEDIA === '1' || !!conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? '')
+      // 1440p clips only for big, sharp screens on a fast connection (≥2560 device pixels wide, ≥1280 CSS px).
+      env.large = !mq.matches && !env.lite && innerWidth >= 1280 && screen.width * devicePixelRatio >= 2560 && !/(^|-)3g$/.test(conn?.effectiveType ?? '')
       setMobile(mq.matches)
       setMode(rm.matches ? 'static' : 'play')
     }

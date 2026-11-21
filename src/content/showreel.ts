@@ -3,12 +3,14 @@
 
 export type ChapterKey = 'local' | 'b2b' | 'solo'
 
-export type MediaSlot = { src: string | null; srcMobile?: string; poster?: string; posterMobile?: string }
+export type MediaSlot = { src: string | null; srcMobile?: string; srcLarge?: string; poster?: string; posterMobile?: string }
 
-const slot = (name: string, mobile = true): MediaSlot => ({
+// large: a 2560×1440 file exists, encoded from a 4K source (never upscaled). Served only to big, sharp screens.
+const slot = (name: string, { mobile = true, large = false }: { mobile?: boolean; large?: boolean } = {}): MediaSlot => ({
   src: `/video/${name}.mp4`,
   poster: `/video/${name}.webp`,
   ...(mobile ? { srcMobile: `/video/${name}-m.mp4`, posterMobile: `/video/${name}-m.webp` } : {}),
+  ...(large ? { srcLarge: `/video/${name}-hd.mp4` } : {}),
 })
 
 export type Chapter = {
@@ -18,12 +20,12 @@ export type Chapter = {
 }
 
 // Stock clips from Pexels (free for commercial use, no attribution required; never imply the people
-// shown are Heart Social clients). Trimmed to 5–6 s, graded alike, 1280×720 desktop / 720×900 mobile;
-// C clips are 720×810 crops for the desktop split scene only (scene 7 does not run on mobile).
+// shown are Heart Social clients). Trimmed to 5–6 s, graded alike: 1920×1080 desktop / 864×1080 mobile /
+// 2560×1440 large (4K sources only); C clips are 960×1080 crops for the desktop split scene only.
 export const chapters: Chapter[] = [
-  { key: 'local', name: 'Afaceri locale', media: { A: slot('local-a'), B: slot('local-b'), C: slot('local-c', false) } }, // latte art · frizerie · bucătărie
-  { key: 'b2b', name: 'Companii B2B', media: { A: slot('b2b-a'), B: slot('b2b-b'), C: slot('b2b-c', false) } }, // echipă · bandă rulantă · prezentare
-  { key: 'solo', name: 'Profesioniști independenți', media: { A: slot('solo-a'), B: slot('solo-b'), C: slot('solo-c', false) } }, // telefon pe trepied · sală · laptop
+  { key: 'local', name: 'Afaceri locale', media: { A: slot('local-a', { large: true }), B: slot('local-b', { large: true }), C: slot('local-c', { mobile: false }) } }, // latte art · frizerie · bucătărie
+  { key: 'b2b', name: 'Companii B2B', media: { A: slot('b2b-a'), B: slot('b2b-b', { large: true }), C: slot('b2b-c', { mobile: false }) } }, // echipă · depozit · ședință
+  { key: 'solo', name: 'Profesioniști independenți', media: { A: slot('solo-a'), B: slot('solo-b'), C: slot('solo-c', { mobile: false }) } }, // telefon pe trepied · sală · laptop
 ]
 
 export type SceneKind = 'intro' | 'echo' | 'over' | 'typed' | 'zoom' | 'statement' | 'split' | 'breather' | 'count' | 'end'
