@@ -5,7 +5,7 @@ import { site } from '@/lib/site'
 export default function robots(): MetadataRoute.Robots {
   const allow = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true'
   return {
-    rules: allow ? [{ userAgent: '*', allow: '/', disallow: ['/multumim'] }] : [{ userAgent: '*', disallow: '/' }],
+    rules: allow ? [{ userAgent: '*', allow: '/', disallow: ['/ro/multumim', '/en/multumim'] }] : [{ userAgent: '*', disallow: '/' }],
     sitemap: allow ? new URL('/sitemap.xml', site.url).toString() : undefined,
   }
 }

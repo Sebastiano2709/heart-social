@@ -4,7 +4,8 @@
 // Reduced motion → static composition. Pause button pauses the reel and the logo marquee (WCAG 2.2.2).
 import './showreel.css'
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import { chapters, copy, scenes, soundtrack, type Chapter, type ChapterKey, type MediaSlot, type Scene } from '@/content/showreel'
+import { chapters, reelCopy, scenes, soundtrack, type Chapter, type ChapterKey, type MediaSlot, type ReelCopy, type Scene } from '@/content/showreel'
+import { useI18n } from '@/i18n/client'
 import { HEART_PATH, heartFacets, shards } from '@/lib/lowpoly'
 import { IconSpark } from './icons'
 
@@ -240,13 +241,13 @@ function Chars({ text, className, step }: { text: string; className?: string; st
   )
 }
 
-function SceneView({ scene, chapter }: { scene: Scene; chapter: Chapter }) {
+function SceneView({ scene, chapter, copy }: { scene: Scene; chapter: Chapter; copy: ReelCopy }) {
   const m = chapter.media
   switch (scene.kind) {
     case 'intro':
       return (
         <div className="sc sc-intro">
-          <span className="sc-intro__name">{chapter.name}</span>
+          <span className="sc-intro__name">{copy.chapters[chapter.key]}</span>
         </div>
       )
     case 'echo':
@@ -373,7 +374,7 @@ function SceneView({ scene, chapter }: { scene: Scene; chapter: Chapter }) {
 
 /* ---------------- static (no JS / reduced motion / first paint) ---------------- */
 
-function StaticFrame() {
+function StaticFrame({ copy }: { copy: ReelCopy }) {
   // First paint = a full-frame still (the LCP element). Later video frames are the same size, so they do not
   // replace it as LCP. Poster of chapter 1, clip A.
   const first = chapters[0]?.media.A
@@ -394,9 +395,9 @@ function StaticFrame() {
       <div className="sc-static__shade" />
       <IconSpark className="sc-spark" />
       <p className="sc-static__text">
-        <span>REELS CARE</span>
-        <span className="sc-static__outline">OPRESC</span>
-        <span>SCROLL-UL</span>
+        <span>{copy.still[0]}</span>
+        <span className="sc-static__outline">{copy.still[1]}</span>
+        <span>{copy.still[2]}</span>
       </p>
     </div>
   )
@@ -405,6 +406,8 @@ function StaticFrame() {
 /* ---------------- engine ---------------- */
 
 export function Showreel() {
+  const { lang, ui } = useI18n()
+  const copy = reelCopy[lang]
   const [mode, setMode] = useState<'static' | 'play'>('static')
   const [paused, setPaused] = useState(false)
   const [mobile, setMobile] = useState(false)
@@ -524,7 +527,7 @@ export function Showreel() {
     <section className="reel-wrap" aria-label="Showreel Heart Social">
       <p className="sr-only">{copy.summary}</p>
       <div ref={rootRef} className={`reel ${paused ? 'reel--paused' : ''}`} aria-hidden="true">
-        {mode === 'static' ? <StaticFrame /> : <SceneView key={`${pos.ch}-${pos.sc}-${mobile ? 'm' : 'd'}`} scene={scene} chapter={chapter} />}
+        {mode === 'static' ? <StaticFrame copy={copy} /> : <SceneView key={`${pos.ch}-${pos.sc}-${mobile ? 'm' : 'd'}`} scene={scene} chapter={chapter} copy={copy} />}
         {mode === 'play' && <Preload chapterIdx={pos.ch} />}
       </div>
       <div className="reel-ctrl">
@@ -532,7 +535,7 @@ export function Showreel() {
           <>
             <audio ref={audioRef} src={soundtrack} loop preload="none" />
             <button type="button" className="reel-btn" aria-pressed={!muted} onClick={toggleSound}>
-              <span className="sr-only">{muted ? 'Pornește sunetul' : 'Oprește sunetul'}</span>
+              <span className="sr-only">{muted ? ui.reel.soundOn : ui.reel.soundOff}</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor" />
                 {muted ? <path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" strokeWidth="2" /> : <path d="M16 8a5 5 0 010 8M18.5 5.5a9 9 0 010 13" stroke="currentColor" strokeWidth="2" fill="none" />}
@@ -541,7 +544,7 @@ export function Showreel() {
           </>
         )}
         <button type="button" className="reel-btn" aria-pressed={paused} onClick={() => setPausedAndSync(!paused)}>
-          <span className="sr-only">{paused ? 'Pornește din nou animațiile' : 'Pune pe pauză animațiile'}</span>
+          <span className="sr-only">{paused ? ui.reel.play : ui.reel.pause}</span>
           <svg viewBox="0 0 24 24" aria-hidden="true">
             {paused ? <path d="M7 4l13 8-13 8z" fill="currentColor" /> : (
               <>

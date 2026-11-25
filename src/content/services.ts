@@ -1,6 +1,8 @@
 // Service page copy. Social Media Marketing = Stage 3 approved copy. The other four follow the same
 // template and are DRAFTS written in Stage 4 (marked in the delivery report) — Emilian approves them.
 import type { ServiceSlug } from '@/lib/site'
+import type { Locale } from '@/i18n/config'
+import { serviceContentEn } from './services.en'
 
 export type ServiceContent = {
   title: string // <title>
@@ -23,7 +25,7 @@ export type ServiceContent = {
 
 const call: [string, string] = ['Apelul gratuit.', 'Ne cunoaștem, aflăm ce vrei să obții și vedem dacă ne potrivim.']
 
-export const serviceContent: Record<ServiceSlug, ServiceContent> = {
+const serviceContentRo: Record<ServiceSlug, ServiceContent> = {
   'social-media-marketing': {
     title: 'Social media marketing București | Heart Social',
     description: 'Strategie, conținut filmat de noi, Reels și comunitate pentru afacerea ta. Rezervă-ți un apel gratuit și află ce poate face social media pentru tine.',
@@ -163,3 +165,5 @@ export const serviceContent: Record<ServiceSlug, ServiceContent> = {
     finalTitle: 'Hai să facem reclame care aduc oameni reali.',
   },
 }
+
+export const serviceContent: Record<Locale, Record<ServiceSlug, ServiceContent>> = { ro: serviceContentRo, en: serviceContentEn }

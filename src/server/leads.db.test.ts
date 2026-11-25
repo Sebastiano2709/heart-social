@@ -8,7 +8,7 @@ describe.skipIf(!url)('saveLead on a fresh database', () => {
   it('creates the call_requests table on first use and stores leads', async () => {
     process.env.DATABASE_URL = url
     const { saveLead } = await import('./leads')
-    const lead = { name: 'Test Integrare', phone: '0799521159', link: '', service: 'Social media', location: 'apel-gratuit' }
+    const lead = { name: 'Test Integrare', phone: '0799521159', link: '', service: 'Social media', location: 'apel-gratuit', locale: 'en' as const }
     const a = await saveLead(lead)
     const b = await saveLead({ ...lead, link: 'instagram.com/test' })
     expect(a.id).not.toBe(b.id)

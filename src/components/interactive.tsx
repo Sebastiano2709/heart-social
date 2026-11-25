@@ -2,13 +2,16 @@
 import Link from 'next/link'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { trackEvent, type EventName } from '@/lib/analytics'
-import { CTA } from '@/lib/site'
+import { CTA_HREF } from '@/lib/site'
+import { localePath } from '@/i18n/config'
+import { useI18n } from '@/i18n/client'
 
-/** Primary CTA link — every "Rezervă-ți un apel gratuit" button goes through here (event cta_click). */
-export function CtaButton({ location, label = CTA.primary, variant = '', className = '' }: { location: string; label?: string; variant?: '' | 'btn-dark' | 'btn-ghost'; className?: string }) {
+/** Primary CTA link — every "book a free call" button goes through here (event cta_click). */
+export function CtaButton({ location, label, variant = '', className = '' }: { location: string; label?: string; variant?: '' | 'btn-dark' | 'btn-ghost'; className?: string }) {
+  const { lang, ui } = useI18n()
   return (
-    <Link href={CTA.href} className={`btn ${variant} ${className}`} onClick={() => trackEvent('cta_click', { location })}>
-      {label} <span className="chev" aria-hidden="true">›</span>
+    <Link href={localePath(lang, CTA_HREF)} className={`btn ${variant} ${className}`} onClick={() => trackEvent('cta_click', { location })}>
+      {label ?? ui.cta.primary} <span className="chev" aria-hidden="true">›</span>
     </Link>
   )
 }

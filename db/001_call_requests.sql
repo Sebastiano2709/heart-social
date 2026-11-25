@@ -10,9 +10,13 @@ create table if not exists call_requests (
   link          text check (link is null or char_length(link) <= 200),
   service       text not null,
   form_location text not null default 'apel-gratuit',
-  notified_at   timestamptz
+  notified_at   timestamptz,
+  locale        text not null default 'ro'   -- language of the page the visitor used ('ro' | 'en')
 );
 
 create index if not exists call_requests_created_at_idx on call_requests (created_at desc);
 -- Reconciliation: rows with notified_at is null older than 10 minutes were not e-mailed; re-send them.
 create index if not exists call_requests_unnotified_idx on call_requests (created_at) where notified_at is null;
+
+-- Added 2026-11-25 (bilingual site): existing tables get the column, idempotently.
+alter table call_requests add column if not exists locale text not null default 'ro';

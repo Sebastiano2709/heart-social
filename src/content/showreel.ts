@@ -15,7 +15,6 @@ const slot = (name: string, { mobile = true, large = false }: { mobile?: boolean
 
 export type Chapter = {
   key: ChapterKey
-  name: string
   media: { A: MediaSlot; B: MediaSlot; C: MediaSlot }
 }
 
@@ -23,9 +22,9 @@ export type Chapter = {
 // shown are Heart Social clients). Trimmed to 5–6 s, graded alike: 1920×1080 desktop / 864×1080 mobile /
 // 2560×1440 large (4K sources only); C clips are 960×1080 crops for the desktop split scene only.
 export const chapters: Chapter[] = [
-  { key: 'local', name: 'Afaceri locale', media: { A: slot('local-a', { large: true }), B: slot('local-b', { large: true }), C: slot('local-c', { mobile: false }) } }, // latte art · frizerie · bucătărie
-  { key: 'b2b', name: 'Companii B2B', media: { A: slot('b2b-a'), B: slot('b2b-b', { large: true }), C: slot('b2b-c', { mobile: false }) } }, // echipă · depozit · ședință
-  { key: 'solo', name: 'Profesioniști independenți', media: { A: slot('solo-a'), B: slot('solo-b'), C: slot('solo-c', { mobile: false }) } }, // telefon pe trepied · sală · laptop
+  { key: 'local', media: { A: slot('local-a', { large: true }), B: slot('local-b', { large: true }), C: slot('local-c', { mobile: false }) } }, // latte art · frizerie · bucătărie
+  { key: 'b2b', media: { A: slot('b2b-a'), B: slot('b2b-b', { large: true }), C: slot('b2b-c', { mobile: false }) } }, // echipă · depozit · ședință
+  { key: 'solo', media: { A: slot('solo-a'), B: slot('solo-b'), C: slot('solo-c', { mobile: false }) } }, // telefon pe trepied · sală · laptop
 ]
 
 export type SceneKind = 'intro' | 'echo' | 'over' | 'typed' | 'zoom' | 'statement' | 'split' | 'breather' | 'count' | 'end'
@@ -45,15 +44,42 @@ export const scenes: Scene[] = [
   { kind: 'end', ms: 2600, mobile: true },
 ]
 
-export const copy = {
-  echo: 'REELS',
-  overLabel: 'CARE OPRESC SCROLL-UL',
-  typed: ['DIN', 'INIMĂ'],
-  statement: ['DE LA IDEE', 'LA POSTARE'],
-  split: { big: ['STRATEGIE', '+ EXECUȚIE'], small: 'un singur partener' },
-  count: { figure: '5', label: ['SERVICII', 'SUB UN SINGUR ACOPERIȘ'] }, // swap to a [CIFRĂ REALĂ] when one exists
-  summary:
-    'Showreel Heart Social: Reels care opresc scroll-ul, conținut făcut din inimă, de la idee la postare, strategie și execuție, 5 servicii sub un singur acoperiș.',
+export type ReelCopy = {
+  chapters: Record<ChapterKey, string>
+  echo: string
+  overLabel: string
+  typed: string[]
+  statement: string[]
+  split: { big: [string, string]; small: string }
+  count: { figure: string; label: [string, string] }
+  /** First frame (poster still, also shown with reduced motion): three lines, the middle one outlined. */
+  still: [string, string, string]
+  summary: string
+}
+
+export const reelCopy: Record<'ro' | 'en', ReelCopy> = {
+  ro: {
+    chapters: { local: 'Afaceri locale', b2b: 'Companii B2B', solo: 'Profesioniști independenți' },
+    echo: 'REELS',
+    overLabel: 'CARE OPRESC SCROLL-UL',
+    typed: ['DIN', 'INIMĂ'],
+    statement: ['DE LA IDEE', 'LA POSTARE'],
+    split: { big: ['STRATEGIE', '+ EXECUȚIE'], small: 'un singur partener' },
+    count: { figure: '5', label: ['SERVICII', 'SUB UN SINGUR ACOPERIȘ'] }, // a fact (5 services), not a result claim
+    still: ['REELS CARE', 'OPRESC', 'SCROLL-UL'],
+    summary: 'Showreel Heart Social: Reels care opresc scroll-ul, conținut făcut din inimă, de la idee la postare, strategie și execuție, 5 servicii sub un singur acoperiș.',
+  },
+  en: {
+    chapters: { local: 'Local businesses', b2b: 'B2B companies', solo: 'Independent professionals' },
+    echo: 'REELS',
+    overLabel: 'THAT STOP THE SCROLL',
+    typed: ['FROM THE', 'HEART'],
+    statement: ['FROM IDEA', 'TO POST'],
+    split: { big: ['STRATEGY', '+ EXECUTION'], small: 'one single partner' },
+    count: { figure: '5', label: ['SERVICES', 'UNDER ONE ROOF'] },
+    still: ['REELS THAT', 'STOP', 'THE SCROLL'],
+    summary: 'Heart Social showreel: Reels that stop the scroll, content made from the heart, from idea to post, strategy and execution, 5 services under one roof.',
+  },
 }
 
 /** Optional soundtrack (licensed instrumental). null = the sound button is not shown. */

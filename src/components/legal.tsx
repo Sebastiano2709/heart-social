@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 import { Breadcrumbs } from './breadcrumbs'
+import type { Locale } from '@/i18n/config'
 
 /** Legal page shell. The text is a structure for counsel to complete — not legal advice ([LEGAL], 09 §5.13). */
-export function LegalPage({ title, children }: { title: string; children: ReactNode }) {
+export function LegalPage({ lang, title, children }: { lang: Locale; title: string; children: ReactNode }) {
   return (
     <section className="section" aria-labelledby="h1">
       <div className="wrap max-w-3xl">
-        <Breadcrumbs trail={[{ name: title }]} />
+        <Breadcrumbs lang={lang} trail={[{ name: title }]} />
         <h1 id="h1" className="text-[clamp(2rem,1.6rem+2vw,3rem)]">
           {title}
         </h1>

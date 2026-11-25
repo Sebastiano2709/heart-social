@@ -14,15 +14,18 @@ DIST = os.environ.get('NEXT_DIST_DIR', '.next-preview')
 NO_MEDIA = os.environ.get('NEXT_PUBLIC_PREVIEW_NO_MEDIA') == '1'  # share build: no video/audio files
 ROOT = Path(__file__).resolve().parent.parent
 SLUGS = ['social-media-marketing', 'sedinte-foto-video', 'editare-reels', 'creare-site-web-design', 'campanii-ads']
-ROUTES = ['/', '/servicii', *[f'/servicii/{s}' for s in SLUGS], '/portofoliu', '/despre-noi', '/apel-gratuit', '/multumim',
-          '/politica-de-confidentialitate', '/politica-cookies', '/termeni-si-conditii']
+PATHS = ['/', '/servicii', *[f'/servicii/{s}' for s in SLUGS], '/portofoliu', '/despre-noi', '/apel-gratuit', '/multumim',
+         '/politica-de-confidentialitate', '/politica-cookies', '/termeni-si-conditii']
+# Both languages. /ro is the preview's index.html (the portfolio iframe points at it); the rest are flattened:
+# /en/servicii/x -> en-servicii-x.html. The bare "/" (negotiated by proxy.ts on the server) opens Romanian here.
+ROUTES = [f'/{lang}' if p == '/' else f'/{lang}{p}' for lang in ('ro', 'en') for p in PATHS]
 
 
 def page_file(route: str) -> str:
-    return 'index.html' if route == '/' else route.strip('/').replace('/', '-') + '.html'
+    return 'index.html' if route == '/ro' else route.strip('/').replace('/', '-') + '.html'
 
 
-MAP = {r: page_file(r) for r in ROUTES} | {'/contact': 'apel-gratuit.html'}
+MAP = {r: page_file(r) for r in ROUTES} | {'/': 'index.html', '/contact': 'ro-apel-gratuit.html'}
 
 ASSET = re.compile(r'(["\'`(\s,=]|\\")/(_next|video|audio|img|fonts)/')
 
@@ -47,7 +50,7 @@ window.TURBOPACK_CHUNK_BASE_PATH=P+'_next/';
 var R=/(\\\\?["'(])\\/(_next|video|audio|img|fonts)\\//g;function rw(x){if(x&&typeof x[1]==='string'){x=x.slice();x[1]=x[1].replace(R,function(_,q,d){return q+P+d+'/'})}return x}
 var arr=[],np=Array.prototype.push,cur=function(){for(var i=0;i<arguments.length;i++)np.call(arr,rw(arguments[i]));return arr.length};
 Object.defineProperty(arr,'push',{configurable:true,get:function(){return cur},set:function(f){cur=function(){return f.apply(arr,Array.prototype.map.call(arguments,rw))}}});self.__next_f=arr;
-function m(p){var h='',i=p.indexOf('#');if(i>=0){h=p.slice(i);p=p.slice(0,i)}p=p.replace(/\\/$/,'')||'/';return (M[p]||'404.html')+h}
+function m(p){var h='',i=p.indexOf('#');if(i>=0){h=p.slice(i);p=p.slice(0,i)}p=p.replace(/\\/$/,'')||'/';return (M[p]||(/^\\/en(\\/|$)/.test(p)?'en-404.html':'404.html'))+h}
 window.__hsNav=function(p){location.href=new URL(m(p),b).href};
 addEventListener('click',function(e){if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey)return;
 var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(!a||a.target==='_blank')return;
@@ -85,7 +88,7 @@ for js in (OUT / '_next/static').rglob('*.js'):
     js.write_text(re.sub(r'([`"\'])/(video|audio|img|fonts)/', r'\1\2/', t))
 
 nav = NAV_SCRIPT % json.dumps(MAP)
-for route, name in [*((r, page_file(r)) for r in ROUTES), ('/__preview-404', '404.html')]:
+for route, name in [*((r, page_file(r)) for r in ROUTES), ('/ro/__preview-404', '404.html'), ('/en/__preview-404', 'en-404.html')]:
     html = fetch(BASE + route)
     html = HREF.sub(map_href, html)
     parts = re.split(r'(<script>.*?</script>)', html, flags=re.S)

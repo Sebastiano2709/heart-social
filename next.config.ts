@@ -15,7 +15,7 @@ const config: NextConfig = {
     return [{ source: '/:path*', headers: securityHeaders }]
   },
   async redirects() {
-    return [{ source: '/contact', destination: '/apel-gratuit', permanent: true }]
+    return [{ source: '/contact', destination: '/ro/apel-gratuit', permanent: true }]
   },
 }
 

@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
-import { services } from '@/lib/site'
+import { servicesFor } from '@/lib/site'
+import { localePath, type Locale } from '@/i18n/config'
+import { getUi } from '@/i18n/ui'
 import { serviceIcon } from './icons'
 import { CtaButton, Reveal } from './interactive'
 import { PhText } from './ph-text'
 
 /** Grey marquee under the hero. Lists services until ≥6 real client logos (with permission) exist. */
-export function Marquee({ items }: { items: string[] }) {
+export function Marquee({ items, lang }: { items: string[]; lang: Locale }) {
   const row = (
     <ul className="marquee__row" aria-hidden="true">
       {items.map((t) => (
@@ -19,7 +21,7 @@ export function Marquee({ items }: { items: string[] }) {
   )
   return (
     <div className="marquee bg-grey-100">
-      <p className="sr-only">Servicii: {items.join(', ')}.</p>
+      <p className="sr-only">{getUi(lang).sections.servicesSr}: {items.join(', ')}.</p>
       <div className="marquee__track">
         {row}
         {row}
@@ -48,11 +50,12 @@ export function SectionHead({ eyebrow, title, id, children, center = false }: { 
   )
 }
 
-export function ServiceCards({ headingLevel = 3 }: { headingLevel?: 2 | 3 }) {
+export function ServiceCards({ lang, headingLevel = 3 }: { lang: Locale; headingLevel?: 2 | 3 }) {
   const H = headingLevel === 2 ? 'h2' : 'h3'
+  const t = getUi(lang).sections
   return (
     <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
-      {services.map((s, i) => {
+      {servicesFor(lang).map((s, i) => {
         const Icon = serviceIcon[s.icon]
         return (
           <Reveal as="li" key={s.slug} delay={(i % 3) * 80} className={`facet-card relative flex flex-col p-7 shadow-[inset_0_0_0_1px_var(--color-line)] ${i < 3 ? 'lg:col-span-2' : 'lg:col-span-3'}`}>
@@ -60,9 +63,9 @@ export function ServiceCards({ headingLevel = 3 }: { headingLevel?: 2 | 3 }) {
             <p className="text-sm font-bold uppercase tracking-[0.1em] text-magenta-600">{s.name}</p>
             <H className="mt-2 text-[1.35rem] leading-tight">{s.benefit}</H>
             <p className="mt-3 text-grey-700"><PhText text={s.summary} /></p>
-            <Link href={`/servicii/${s.slug}`} className="link-arrow mt-auto pt-6 after:absolute after:inset-0">
-              Detalii <span aria-hidden="true">›</span>
-              <span className="sr-only"> despre {s.name}</span>
+            <Link href={localePath(lang, `/servicii/${s.slug}`)} className="link-arrow mt-auto pt-6 after:absolute after:inset-0">
+              {t.details} <span aria-hidden="true">›</span>
+              <span className="sr-only"> {t.about} {s.name}</span>
             </Link>
           </Reveal>
         )

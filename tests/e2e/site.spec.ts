@@ -4,7 +4,9 @@ import { readFile } from 'node:fs/promises'
 
 const ip = () => `198.51.100.${Math.floor(Math.random() * 250) + 1}`
 
-const pages = ['/', '/servicii', '/servicii/social-media-marketing', '/servicii/campanii-ads', '/despre-noi', '/apel-gratuit', '/portofoliu', '/multumim', '/politica-cookies']
+const paths = ['/', '/servicii', '/servicii/social-media-marketing', '/servicii/campanii-ads', '/despre-noi', '/apel-gratuit', '/portofoliu', '/multumim', '/politica-cookies']
+const at = (lang: 'ro' | 'en', path: string) => (path === '/' ? `/${lang}` : `/${lang}${path}`)
+const pages = [...paths.map((p) => at('ro', p)), ...paths.map((p) => at('en', p)), '/en/servicii/editare-reels', '/en/politica-de-confidentialitate']
 
 test.beforeEach(async ({ context }) => {
   await context.addInitScript(() => localStorage.setItem('hs-consent', JSON.stringify({ analytics: false, marketing: false, v: 1 })))
@@ -29,7 +31,7 @@ for (const path of pages) {
 
 test('form: errors are announced next to fields and values survive', async ({ page }) => {
   await page.setExtraHTTPHeaders({ 'x-forwarded-for': ip() })
-  await page.goto('/apel-gratuit')
+  await page.goto('/ro/apel-gratuit')
   await page.getByLabel('Cum te numești?').fill('A')
   await page.getByLabel('Numărul de telefon').fill('0712')
   await page.getByRole('button', { name: /Rezervă apelul gratuit/ }).click()
@@ -44,14 +46,14 @@ test('form: errors are announced next to fields and values survive', async ({ pa
 test('form: valid submission is stored and lands on /multumim', async ({ page }) => {
   const marker = `E2E ${Date.now()}`
   await page.setExtraHTTPHeaders({ 'x-forwarded-for': ip() })
-  await page.goto('/apel-gratuit')
+  await page.goto('/ro/apel-gratuit')
   await page.getByLabel('Cum te numești?').fill(marker)
   await page.getByLabel('Numărul de telefon').fill('0712 345 678')
   await page.getByLabel(/Instagramul sau site-ul/).fill('instagram.com/test')
   await page.getByLabel('Cu ce te putem ajuta?').selectOption('Editare Reels')
   await page.getByLabel(/Sunt de acord/).check()
   await page.getByRole('button', { name: /Rezervă apelul gratuit/ }).click()
-  await expect(page).toHaveURL(/\/multumim$/)
+  await expect(page).toHaveURL(/\/ro\/multumim$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('am primit')
   const stored = await readFile('.data/leads.jsonl', 'utf8')
   expect(stored).toContain(marker)
@@ -59,7 +61,7 @@ test('form: valid submission is stored and lands on /multumim', async ({ page })
 
 test('keyboard: skip link, services menu and CTA reachable', async ({ page, isMobile }) => {
   test.skip(!!isMobile, 'desktop navigation')
-  await page.goto('/')
+  await page.goto('/ro')
   await page.keyboard.press('Tab')
   await expect(page.getByRole('link', { name: 'Sari la conținut' })).toBeFocused()
   const svc = page.getByRole('button', { name: 'Servicii' })
@@ -72,7 +74,7 @@ test('keyboard: skip link, services menu and CTA reachable', async ({ page, isMo
 
 test('mobile menu opens and closes', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'mobile navigation')
-  await page.goto('/')
+  await page.goto('/ro')
   await page.getByRole('button', { name: 'Deschide meniul' }).click()
   await expect(page.getByRole('navigation', { name: 'Navigare mobilă' })).toBeVisible()
   await page.keyboard.press('Escape')
@@ -80,7 +82,7 @@ test('mobile menu opens and closes', async ({ page, isMobile }) => {
 })
 
 test('showreel: plays, pauses (WCAG 2.2.2), static under reduced motion', async ({ page, browser }) => {
-  await page.goto('/')
+  await page.goto('/ro')
   await page.waitForTimeout(1200)
   await expect(page.locator('.sc-intro')).toBeVisible()
   const pause = page.getByRole('button', { name: 'Pune pe pauză animațiile' })
@@ -92,7 +94,7 @@ test('showreel: plays, pauses (WCAG 2.2.2), static under reduced motion', async 
 
   const ctx = await browser.newContext({ reducedMotion: 'reduce' })
   const p2 = await ctx.newPage()
-  await p2.goto('/')
+  await p2.goto('/ro')
   await p2.waitForTimeout(1500)
   await expect(p2.locator('.sc-static')).toBeVisible()
   await ctx.close()
@@ -103,7 +105,7 @@ test('consent: no analytics requests before opt-in', async ({ browser }) => {
   const p = await ctx.newPage()
   const third: string[] = []
   p.on('request', (r) => { if (/googletagmanager|facebook/.test(r.url())) third.push(r.url()) })
-  await p.goto('/')
+  await p.goto('/ro')
   await expect(p.getByRole('region', { name: 'Preferințe cookie' })).toBeVisible()
   await p.getByRole('button', { name: 'Doar necesare' }).click()
   await expect(p.getByRole('region', { name: 'Preferințe cookie' })).toBeHidden()
@@ -111,9 +113,9 @@ test('consent: no analytics requests before opt-in', async ({ browser }) => {
   await ctx.close()
 })
 
-test('/contact redirects to /apel-gratuit; robots blocks indexing by default', async ({ page, request }) => {
+test('/contact redirects to /ro/apel-gratuit; robots blocks indexing by default', async ({ page, request }) => {
   await page.goto('/contact')
-  await expect(page).toHaveURL(/\/apel-gratuit$/)
+  await expect(page).toHaveURL(/\/ro\/apel-gratuit$/)
   const robots = await (await request.get('/robots.txt')).text()
   expect(robots).toMatch(/Disallow: \//)
 })
@@ -121,7 +123,7 @@ test('/contact redirects to /apel-gratuit; robots blocks indexing by default', a
 test('rate limit: the 6th request from one IP in 10 minutes is refused', async ({ page, isMobile }) => {
   test.skip(!!isMobile, 'server behaviour, run once')
   await page.setExtraHTTPHeaders({ 'x-forwarded-for': '192.0.2.77' })
-  await page.goto('/apel-gratuit')
+  await page.goto('/ro/apel-gratuit')
   for (let i = 0; i < 6; i++) {
     await page.getByRole('button', { name: /Rezervă apelul gratuit/ }).click()
     await page.waitForTimeout(400)
@@ -130,7 +132,7 @@ test('rate limit: the 6th request from one IP in 10 minutes is refused', async (
 })
 
 test('showreel: sound button starts muted and toggles on click', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/ro')
   const on = page.getByRole('button', { name: 'Pornește sunetul' })
   await expect(on).toBeVisible({ timeout: 5000 })
   await expect(on).toHaveAttribute('aria-pressed', 'false')
@@ -138,4 +140,95 @@ test('showreel: sound button starts muted and toggles on click', async ({ page }
   await on.click()
   await expect(page.getByRole('button', { name: 'Oprește sunetul' })).toHaveAttribute('aria-pressed', 'true')
   expect(await page.evaluate(() => (document.querySelector('.reel-wrap audio') as HTMLAudioElement | null)?.paused)).toBe(false)
+})
+
+// ── English version (03 §8.7) ─────────────────────────────────────────────────────────────────────
+
+test('en: / negotiates from Accept-Language, then the saved choice wins', async ({ browser }) => {
+  const en = await browser.newContext({ locale: 'en-GB' })
+  const p = await en.newPage()
+  await p.goto('/')
+  await expect(p).toHaveURL(/\/en$/)
+  await expect(p.locator('html')).toHaveAttribute('lang', 'en')
+  await en.close()
+
+  const ro = await browser.newContext({ locale: 'ro-RO' })
+  const q = await ro.newPage()
+  await q.goto('/')
+  await expect(q).toHaveURL(/\/ro$/)
+  await ro.close()
+
+  const saved = await browser.newContext({ locale: 'en-GB' })
+  await saved.addCookies([{ name: 'locale', value: 'ro', url: 'http://localhost:3100' }])
+  const r = await saved.newPage()
+  await r.goto('/')
+  await expect(r).toHaveURL(/\/ro$/)
+  await saved.close()
+})
+
+test('en: legacy unprefixed URLs move to /ro; localized URLs are never redirected by language', async ({ browser }) => {
+  const ctx = await browser.newContext({ locale: 'en-GB' })
+  const p = await ctx.newPage()
+  await p.goto('/servicii/editare-reels')
+  await expect(p).toHaveURL(/\/ro\/servicii\/editare-reels$/)
+  await p.goto('/ro/despre-noi')
+  await expect(p).toHaveURL(/\/ro\/despre-noi$/)
+  await ctx.close()
+})
+
+test('en: switcher goes to the same page in the other language and remembers it', async ({ page, context, isMobile }) => {
+  await page.goto('/ro/servicii/editare-reels')
+  if (isMobile) {
+    await page.getByRole('link', { name: 'English' }).first().click()
+  } else {
+    await page.getByRole('navigation', { name: 'Navigare principală' }).getByRole('link', { name: 'English' }).click()
+  }
+  await expect(page).toHaveURL(/\/en\/servicii\/editare-reels$/)
+  await expect(page.locator('h1')).toContainText('Reels that')
+  const cookie = (await context.cookies()).find((c) => c.name === 'locale')
+  expect(cookie?.value).toBe('en')
+})
+
+test('en: hreflang alternates, self-canonical and x-default', async ({ page }) => {
+  await page.goto('/en/despre-noi')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/en\/despre-noi$/)
+  await expect(page.locator('link[rel="alternate"][hreflang="ro"]')).toHaveAttribute('href', /\/ro\/despre-noi$/)
+  await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute('href', /\/en\/despre-noi$/)
+  await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveCount(1)
+})
+
+test('en: unknown pages show the English 404 inside the site layout', async ({ page }) => {
+  const res = await page.goto('/en/does-not-exist')
+  expect(res?.status()).toBe(404)
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+  await expect(page.locator('h1')).toHaveText('This page doesn’t exist. But we do.')
+})
+
+test('en: form validates in English', async ({ page }) => {
+  await page.setExtraHTTPHeaders({ 'x-forwarded-for': ip() })
+  await page.goto('/en/apel-gratuit')
+  await page.getByLabel('What’s your name?').fill('A')
+  await page.getByLabel('Phone number').fill('0712')
+  await page.getByRole('button', { name: /Book the free call/ }).click()
+  await expect(page.getByText('Tell us your name.')).toBeVisible()
+  await expect(page.getByText(/The number looks incomplete/)).toBeVisible()
+  await expect(page.getByText('Tick the box so we’re allowed to contact you.')).toBeVisible()
+})
+
+test('en: valid submission is stored with locale "en" and lands on /en/multumim', async ({ page }) => {
+  const marker = `E2E-EN ${Date.now()}`
+  await page.setExtraHTTPHeaders({ 'x-forwarded-for': ip() })
+  await page.goto('/en/apel-gratuit')
+  await page.getByLabel('What’s your name?').fill(marker)
+  await page.getByLabel('Phone number').fill('+40 712 345 678')
+  await page.getByLabel('What can we help you with?').selectOption({ label: 'Reels editing' })
+  await page.getByLabel(/I agree/).check()
+  await page.getByRole('button', { name: /Book the free call/ }).click()
+  await expect(page).toHaveURL(/\/en\/multumim$/)
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('received your')
+  const line = (await readFile('.data/leads.jsonl', 'utf8')).split('\n').find((l) => l.includes(marker))
+  expect(line).toBeTruthy()
+  const lead = JSON.parse(line!)
+  expect(lead.locale).toBe('en')
+  expect(lead.service).toBe('Editare Reels') // stored values stay Romanian for the team
 })

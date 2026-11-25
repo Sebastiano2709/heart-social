@@ -6,7 +6,7 @@ import { appendFile, mkdir } from 'node:fs/promises'
 import path from 'node:path'
 import postgres from 'postgres'
 
-export type Lead = { name: string; phone: string; link: string; service: string; location: string }
+export type Lead = { name: string; phone: string; link: string; service: string; location: string; locale: 'ro' | 'en' }
 
 let sql: ReturnType<typeof postgres> | null = null
 function db() {
@@ -33,7 +33,8 @@ function ensureSchema(conn: ReturnType<typeof postgres>) {
         notified_at   timestamptz
       );
       create index if not exists call_requests_created_at_idx on call_requests (created_at desc);
-      create index if not exists call_requests_unnotified_idx on call_requests (created_at) where notified_at is null;`,
+      create index if not exists call_requests_unnotified_idx on call_requests (created_at) where notified_at is null;
+      alter table call_requests add column if not exists locale text not null default 'ro';`,
     )
     .simple()
     .catch((err) => {
@@ -48,8 +49,8 @@ export async function saveLead(lead: Lead): Promise<{ id: string }> {
   if (conn) {
     await ensureSchema(conn)
     const rows = await conn<{ id: string }[]>`
-      insert into call_requests (name, phone, link, service, form_location)
-      values (${lead.name}, ${lead.phone}, ${lead.link || null}, ${lead.service}, ${lead.location})
+      insert into call_requests (name, phone, link, service, form_location, locale)
+      values (${lead.name}, ${lead.phone}, ${lead.link || null}, ${lead.service}, ${lead.location}, ${lead.locale})
       returning id`
     const id = rows[0]?.id
     if (!id) throw new Error('insert returned no id')
@@ -82,8 +83,8 @@ export async function notifyLead(id: string, lead: Lead): Promise<void> {
     body: JSON.stringify({
       from,
       to: [to],
-      subject: `Cerere de apel: ${lead.name} (${lead.service})`,
-      html: `<p><b>Nume:</b> ${esc(lead.name)}<br><b>Telefon:</b> ${esc(lead.phone)}<br><b>Link:</b> ${esc(lead.link || '—')}<br><b>Serviciu:</b> ${esc(lead.service)}<br><b>Formular:</b> ${esc(lead.location)}</p>`,
+      subject: `Cerere de apel${lead.locale === 'en' ? ' [EN]' : ''}: ${lead.name} (${lead.service})`,
+      html: `<p><b>Nume:</b> ${esc(lead.name)}<br><b>Telefon:</b> ${esc(lead.phone)}<br><b>Link:</b> ${esc(lead.link || '—')}<br><b>Serviciu:</b> ${esc(lead.service)}<br><b>Formular:</b> ${esc(lead.location)}<br><b>Limba site-ului:</b> ${lead.locale === 'en' ? 'engleză (sună-l în engleză)' : 'română'}</p>`,
     }),
     signal: AbortSignal.timeout(8000),
   })
