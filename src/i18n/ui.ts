@@ -31,7 +31,7 @@ const ro = {
     cookies: 'Politica de cookies',
     terms: 'Termeni și condiții',
   },
-  finalCta: { title: 'Hai să facem asta.', text: 'Spune-ne unde ești acum. Îți arătăm, la telefon, cum te putem ajuta să-ți crești business-ul.' },
+  finalCta: { title: 'Hai să începem.', text: 'Spune-ne unde a ajuns afacerea ta, iar la telefon îți arătăm cum o putem duce mai departe.' },
   sections: { servicesSr: 'Servicii', details: 'Detalii', about: 'despre' },
   mobileBar: { call: 'Sună' },
   consent: {
@@ -46,7 +46,7 @@ const ro = {
     analyticsD: 'Google Analytics: câți vizitatori avem și ce pagini citesc.',
     marketing: 'Marketing',
     marketingD: 'Meta Pixel: măsurăm rezultatul reclamelor.',
-    acceptAll: 'Accept toate',
+    acceptAll: 'Acceptă toate',
     necessaryOnly: 'Doar necesare',
     save: 'Salvează alegerea',
     settings: 'Setări',
@@ -54,7 +54,7 @@ const ro = {
   },
   reel: { soundOn: 'Pornește sunetul', soundOff: 'Oprește sunetul', play: 'Pornește din nou animațiile', pause: 'Pune pe pauză animațiile' },
   form: {
-    offline: 'Se pare că nu ai conexiune. Datele rămân completate; încearcă din nou când revii online.',
+    offline: 'Se pare că nu ai conexiune la internet. Ce ai completat rămâne aici; încearcă din nou când revii online.',
     honeypot: 'Nu completa acest câmp',
     name: 'Cum te numești?',
     namePh: 'ex. Andrei Popescu',
@@ -109,7 +109,7 @@ const en: Ui = {
     cookies: 'Cookie policy',
     terms: 'Terms and conditions',
   },
-  finalCta: { title: 'Let’s make it happen.', text: 'Tell us where you are now. On a call, we’ll show you how we can help you grow your business.' },
+  finalCta: { title: 'Let’s get started.', text: 'Tell us where your business is today, and on a call we’ll show you how we can take it further.' },
   sections: { servicesSr: 'Services', details: 'Details', about: 'about' },
   mobileBar: { call: 'Call' },
   consent: {
@@ -132,7 +132,7 @@ const en: Ui = {
   },
   reel: { soundOn: 'Turn the sound on', soundOff: 'Turn the sound off', play: 'Play the animations again', pause: 'Pause the animations' },
   form: {
-    offline: 'It looks like you’re offline. Your details are still filled in; try again when you’re back online.',
+    offline: 'It looks like you’re offline. Everything you typed is still here; try again when you’re back online.',
     honeypot: 'Leave this field empty',
     name: 'What’s your name?',
     namePh: 'e.g. Alex Popescu',

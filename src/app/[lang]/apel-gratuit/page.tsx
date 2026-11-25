@@ -20,7 +20,7 @@ const copy = {
     steps: (phone: string) => [
       ['Primim cererea ta.', 'O citește Emilian, nu un robot.'],
       ['Te sunăm.', `De pe ${phone}, ca să știi că suntem noi.`],
-      ['Vorbim despre afacerea ta.', 'Și pleci cu pașii următori, indiferent dacă lucrăm împreună sau nu.'],
+      ['Vorbim despre afacerea ta.', 'Și pleci cu un plan clar, indiferent dacă lucrăm împreună sau nu.'],
     ],
     otherTitle: 'Preferi să ne scrii sau să ne suni tu?',
     phoneLabel: 'Telefon',
@@ -39,7 +39,7 @@ const copy = {
     steps: (phone: string) => [
       ['We get your request.', 'Emilian reads it, not a bot.'],
       ['We call you.', `From ${phone}, so you know it's us.`],
-      ['We talk about your business.', 'And you leave with next steps, whether we work together or not.'],
+      ['We talk about your business.', 'And you leave with a clear plan, whether we work together or not.'],
     ],
     otherTitle: 'Would you rather write to us or call us yourself?',
     phoneLabel: 'Phone',

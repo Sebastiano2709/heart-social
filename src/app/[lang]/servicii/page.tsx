@@ -13,7 +13,7 @@ const copy = {
     crumb: 'Servicii',
     eyebrow: 'Ce facem',
     h1: ['Tot ce îi trebuie afacerii tale ca să fie ', 'văzută', '. Și aleasă.'],
-    lead: 'Cinci servicii care pleacă din același plan: strategie, ședințe foto și video, Reels, site și reclame. Poți începe cu unul și adăuga restul când ai nevoie.',
+    lead: 'Cinci servicii care pornesc de la același plan: strategie, ședințe foto și video, Reels, site și reclame. Poți începe cu unul și adăuga restul când ai nevoie.',
     note: 'Nu știi de unde să începi? Exact asta lămurim la telefon.',
   },
   en: {

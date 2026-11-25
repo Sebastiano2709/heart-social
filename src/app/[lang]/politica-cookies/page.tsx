@@ -12,7 +12,7 @@ const copy = {
     tableTitle: 'Ce cookie-uri folosim',
     head: ['Categorie', 'Furnizor', 'Scop'],
     rows: [
-      ['Necesare', 'Heart Social (stocare locală „hs-consent”)', 'Ține minte alegerea ta despre cookie-uri.'],
+      ['Necesare', 'Heart Social (stocare locală „hs-consent”)', 'Ține minte ce ai ales privind cookie-urile.'],
       ['Necesare', 'Heart Social (cookie „locale”)', 'Ține minte limba în care vrei să vezi site-ul.'],
       ['Analiză', 'Google Analytics 4', 'Statistici de vizitare.'],
       ['Marketing', 'Meta Pixel', 'Măsurarea reclamelor.'],

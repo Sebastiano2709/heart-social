@@ -67,7 +67,7 @@ export const reelCopy: Record<'ro' | 'en', ReelCopy> = {
     split: { big: ['STRATEGIE', '+ EXECUȚIE'], small: 'un singur partener' },
     count: { figure: '5', label: ['SERVICII', 'SUB UN SINGUR ACOPERIȘ'] }, // a fact (5 services), not a result claim
     still: ['REELS CARE', 'OPRESC', 'SCROLL-UL'],
-    summary: 'Showreel Heart Social: Reels care opresc scroll-ul, conținut făcut din inimă, de la idee la postare, strategie și execuție, 5 servicii sub un singur acoperiș.',
+    summary: 'Showreel Heart Social: Reels care opresc scroll-ul, conținut făcut din inimă, de la idee la postare, strategie și execuție și 5 servicii sub un singur acoperiș.',
   },
   en: {
     chapters: { local: 'Local businesses', b2b: 'B2B companies', solo: 'Independent professionals' },
@@ -75,10 +75,10 @@ export const reelCopy: Record<'ro' | 'en', ReelCopy> = {
     overLabel: 'THAT STOP THE SCROLL',
     typed: ['FROM THE', 'HEART'],
     statement: ['FROM IDEA', 'TO POST'],
-    split: { big: ['STRATEGY', '+ EXECUTION'], small: 'one single partner' },
+    split: { big: ['STRATEGY', '+ EXECUTION'], small: 'one partner' },
     count: { figure: '5', label: ['SERVICES', 'UNDER ONE ROOF'] },
     still: ['REELS THAT', 'STOP', 'THE SCROLL'],
-    summary: 'Heart Social showreel: Reels that stop the scroll, content made from the heart, from idea to post, strategy and execution, 5 services under one roof.',
+    summary: 'Heart Social showreel: Reels that stop the scroll, content made from the heart, from idea to post, strategy and execution, and 5 services under one roof.',
   },
 }
 

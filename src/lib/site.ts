@@ -60,14 +60,14 @@ export type Service = {
 
 const serviceList: Record<Locale, Service[]> = {
   ro: [
-    { slug: 'social-media-marketing', name: 'Social Media Marketing', benefit: 'Un Instagram care vinde, nu doar arată bine.', summary: 'Strategie, calendar de postări, texte și comunitate, gestionate cap-coadă.', icon: 'social', related: ['sedinte-foto-video', 'editare-reels'] },
+    { slug: 'social-media-marketing', name: 'Social Media Marketing', benefit: 'Un Instagram care vinde, nu doar unul care arată bine.', summary: 'Strategie, calendar de postări, texte și comunitate, de la cap la coadă.', icon: 'social', related: ['sedinte-foto-video', 'editare-reels'] },
     { slug: 'sedinte-foto-video', name: 'Ședințe foto/video', benefit: 'Imagini care arată cine ești cu adevărat.', summary: 'Fotografii de produs, de echipă și de locație, plus filmări pentru Reels și reclame.', icon: 'camera', related: ['editare-reels', 'social-media-marketing'] },
     { slug: 'editare-reels', name: 'Editare Reels', benefit: 'Reels care opresc scroll-ul.', summary: 'Montaj ritmat, subtitrări, sunet și formate gândite pentru Instagram și TikTok.', icon: 'reels', related: ['sedinte-foto-video', 'social-media-marketing'] },
     { slug: 'creare-site-web-design', name: 'Website & web design', benefit: 'Un site care transformă vizitatorii în clienți.', summary: 'Rapid, clar pe telefon și construit în jurul unui singur scop: să te contacteze.', icon: 'web', related: ['campanii-ads', 'social-media-marketing'] },
     { slug: 'campanii-ads', name: 'Campanii Ads', benefit: 'Reclame care aduc oameni, nu doar afișări.', summary: 'Campanii pe Meta și TikTok, cu bugetul pus acolo unde aduce rezultate.', icon: 'ads', related: ['creare-site-web-design', 'social-media-marketing'] },
   ],
   en: [
-    { slug: 'social-media-marketing', name: 'Social Media Marketing', benefit: 'An Instagram that sells, not just one that looks good.', summary: 'Strategy, a content calendar, copy and community management, handled end to end.', icon: 'social', related: ['sedinte-foto-video', 'editare-reels'] },
+    { slug: 'social-media-marketing', name: 'Social Media Marketing', benefit: 'An Instagram that sells, not just one that looks good.', summary: 'Strategy, a content calendar, copy and community management, handled from start to finish.', icon: 'social', related: ['sedinte-foto-video', 'editare-reels'] },
     { slug: 'sedinte-foto-video', name: 'Photo & video shoots', benefit: 'Images that show who you really are.', summary: 'Product, team and location photography, plus footage for Reels and ads.', icon: 'camera', related: ['editare-reels', 'social-media-marketing'] },
     { slug: 'editare-reels', name: 'Reels editing', benefit: 'Reels that stop the scroll.', summary: 'Tight editing, subtitles, sound and formats built for Instagram and TikTok.', icon: 'reels', related: ['sedinte-foto-video', 'social-media-marketing'] },
     { slug: 'creare-site-web-design', name: 'Website & web design', benefit: 'A website that turns visitors into customers.', summary: 'Fast, clear on a phone and built around one goal: getting people to contact you.', icon: 'web', related: ['campanii-ads', 'social-media-marketing'] },
